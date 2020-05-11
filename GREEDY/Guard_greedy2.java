@@ -277,7 +277,7 @@ public class Guard_greedy2{
     //print(to_visit,n_ret);
     int s,size,x,y;
     x=y=0;
-
+    //System.out.println("As :"+rect[2].has_vert(12));
     //guarded is number of rectangles guarded atm
     while(!pq.isEmpty()){
 
@@ -288,7 +288,6 @@ public class Guard_greedy2{
       }
 
       Rect rect1 = rect[s];
-
       //number of vertices in rectangle
       size = rect1.n_verts;
 
@@ -303,6 +302,7 @@ public class Guard_greedy2{
         }
       }
       if(aux.get_x() == -1 && aux.get_y() == -1) continue;
+
       //rectangle guarded
       to_visit[s] = true;
 
@@ -310,10 +310,27 @@ public class Guard_greedy2{
       x=aux.get_x();
       y=aux.get_y();
 
-      //System.out.println("("+x+","+y+")");
+      //System.out.println("("+x+","+y+")"+" s:"+s);
       //System.out.print("reck id: "+rect[s].id+"- ");
       //print(to_visit,n_ret);
 
+
+
+      //update each rectangle with that vertex
+      for(int k = 1;k<=aux.n_rects;k++){
+        if(!to_visit[aux.rect_ids[k]]){
+          verts_in_rect[aux.rect_ids[k]]-=1;
+
+          //System.out.println("("+x+","+y+")");
+          //System.out.print("reck id: "+aux.rect_ids[k]+"- ");
+          //rectangle guarded
+          to_visit[aux.rect_ids[k]] = true;
+          //print(to_visit,n_ret);
+          //System.out.println("verts:"+verts_in_rect[rect[k].id]);
+          pq.increaseKey(aux.rect_ids[k],verts_in_rect[aux.rect_ids[k]]);
+          //System.out.println("end");
+        }
+      }
       //update each vertex that has that rectangle(remove)
       for(Vert vert2 : Vertmap.values()){
         if(vert2.in_rect(rect1.id)){
@@ -322,20 +339,6 @@ public class Guard_greedy2{
          }
       }
 
-      //update each rectangle with that vertex
-      for(int k = 1;k<=n_ret;k++){
-        if(rect[k].has_vert(aux.id) && !to_visit[rect[k].id]){
-          verts_in_rect[rect[k].id]-=1;
-          //System.out.println("("+x+","+y+")");
-          //System.out.print("reck id: "+rect[k].id+"- ");
-          //rectangle guarded
-          to_visit[rect[k].id] = true;
-          //print(to_visit,n_ret);
-          //System.out.println("verts:"+verts_in_rect[rect[k].id]);
-          pq.increaseKey(rect[k].id,verts_in_rect[rect[k].id]);
-          //System.out.println("end");
-        }
-      }
       //print(to_visit,n_ret);
       Vertmap.remove(aux.id);
       //condition break(if all rectangles are guarded);
