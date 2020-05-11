@@ -240,7 +240,7 @@ public class Guard_greedy3{
   }
   public static void process_rectangles(Scanner input,Rect[] rect,HashMap<Integer,Vert> Vertmap,int n_ret,boolean to_visit[], int verts_in_rect[]){
     int n_verts,x,y,id,rect_id;
-    n_verts = id = 1;
+    id = 1;
     Vert aux;
     for(int i=1;i<=n_ret;i++){
       rect_id = input.nextInt();
@@ -330,14 +330,16 @@ public class Guard_greedy3{
       }
 
       //update each rectangle with that vertex
-      for(int k = 1;k<=n_ret;k++){
-        if(rect[k].has_vert(aux.id) && !to_visit[k]){
-          verts_in_rect[rect[k].id]-=1;
+      for(int k = 1;k<=aux.n_rects;k++){
+        if(!to_visit[aux.rect_ids[k]]){
+          verts_in_rect[aux.rect_ids[k]]-=1;
 
+          //System.out.println("("+x+","+y+")");
+          //System.out.print("reck id: "+aux.rect_ids[k]+"- ");
           //rectangle guarded
-          to_visit[rect[k].id] = true;
+          to_visit[aux.rect_ids[k]] = true;
           //System.out.println("verts:"+verts_in_rect[rect[k].id]);
-          pq.increaseKey(rect[k].id,verts_in_rect[rect[k].id]);
+          pq.increaseKey(aux.rect_ids[k],verts_in_rect[aux.rect_ids[k]]);
           //System.out.println("end");
         }
       }
