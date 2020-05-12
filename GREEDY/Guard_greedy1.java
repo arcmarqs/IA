@@ -205,7 +205,6 @@ class Rect{
   }
 
   void insert_vert(int vert_id){
-    if(has_vert(id)) return;
     vert_ids[++n_verts] = vert_id;
   }
 }
@@ -316,7 +315,7 @@ public class Guard_greedy1{
         rects_in_vert[vert.id] = vert.n_rects;
       }
       System.out.println(".Answer "+i);
-      System.out.print("Guards in: ");
+      System.out.print("Guards: ");
       answer(Vertmap,rects_in_vert,rect,n_ret,w_visit);
       Vertmap.clear();
     }
