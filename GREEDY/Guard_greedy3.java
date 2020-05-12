@@ -286,7 +286,7 @@ public class Guard_greedy3{
     //guarded is number of rectangles guarded atm
     while(!pq.isEmpty()){
 
-      //select rectangle with most number of vertices
+      //select rectangle with less number of vertices
       while(true){
         s = pq.extractMin();
         if(!to_visit[s]) break;
