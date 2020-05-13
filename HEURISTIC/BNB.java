@@ -26,7 +26,7 @@ public static Node child(Node n,Vert vert){
 public static float heuristic(Node n,int rec,HashMap<Integer,Vert> hash){
      int min = rec/3;
 
-    float cost = (float) n.cost + (float) min * (hash.size()-n.guardas.size()-n.vertid)/(hash.size()-n.vertid-1); 
+    float cost = (float) n.cost + (float) min * (hash.size()-n.guardas.size()-n.vertid)/(hash.size()-n.vertid); 
     
     return cost;
 }
