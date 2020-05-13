@@ -22,11 +22,11 @@ class Node{
     }
 
     public void update(Vert v){
-        //if(v.guard==true){
+       // if(v.guard==true){
         for(int i : v.rectid){
             visited[i]++;
+       // }
         }
-        
     }
 
     public boolean visited(Vert v){
@@ -109,7 +109,7 @@ class Vert{
 
 
 
-class BFS{
+class DFS{
 
 public static Node child(Node n,Vert vert){
   
@@ -117,6 +117,7 @@ public static Node child(Node n,Vert vert){
     child.cost = 1+n.cost;
     child.guardas = n.list_cpy();
     child.parent = n;
+
     child.add_guard(vert);
     child.update(vert);
     vert.guard = true;
@@ -127,30 +128,35 @@ public static Node child(Node n,Vert vert){
     
 }
 
-public static Node bfs(Node start,HashMap<Integer,Vert> hash){
+public static Node dfs(Node start,HashMap<Integer,Vert> hash){
     if(start.all_visited()==true) return start;
-    Queue<Node> q = new LinkedList<>();
-    q.add(start);
+    Stack<Node> q = new Stack<>();
+    q.push(start);
     Node n;
-
+    Node solution=null;
+    //int j=1;
+    int maxcost = hash.size();
     while(!(q.isEmpty())){
        
-         n = q.remove();
+         n = q.pop();
 
            //n.print_all_visited();
 
-        if(n.all_visited()) return n;
+        if(n.all_visited()){
+            maxcost = n.cost;
+            solution = n;
+        };
                    
             for(int j=1;j<=hash.size();j++){
-            if(n.vertid < hash.get(j).id && n.visited(hash.get(j))!=true ){
-                q.add(child(n,hash.get(j)));
+            if(n.vertid < hash.get(j).id && (n.visited(hash.get(j))!=true) && (n.cost<maxcost)){
+                q.push(child(n,hash.get(j)));
              }
             }
 
 
     }
 
-    return null;
+    return solution;
 }
 
 
@@ -197,7 +203,7 @@ public static void main(String[] args){
 
         }
        Node start = new Node(nrects,rec);
-       Node solution = bfs(start,hash);
+       Node solution = dfs(start,hash);
 
        if(solution == null){
            System.out.println("Solução não encontrada");
