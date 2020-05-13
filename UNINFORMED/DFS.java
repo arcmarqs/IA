@@ -21,13 +21,13 @@ public static Node child(Node n,Vert vert){
     
 }
 
-public static Node dfs(Node start,HashMap<Integer,Vert> hash){
+public static Node dfs(Node start,HashMap<Integer,Vert> hash,int rect){
     if(start.all_visited()==true) return start;
     Stack<Node> q = new Stack<>();
     q.push(start);
     Node n;
     Node solution=null;
-
+    long nodes =1;
     int maxcost = hash.size();
     while(!(q.isEmpty())){
        
@@ -38,9 +38,10 @@ public static Node dfs(Node start,HashMap<Integer,Vert> hash){
             maxcost = n.cost;
             solution = n;
         };
-                   if(n.cost<maxcost){
+                   if(n.cost <maxcost){
             for(int j=1;j<=hash.size();j++){
             if(n.vertid < hash.get(j).id && (n.visited(hash.get(j))!=true)){
+                nodes++;
                 q.push(child(n,hash.get(j)));
              }
             }
@@ -48,6 +49,7 @@ public static Node dfs(Node start,HashMap<Integer,Vert> hash){
 
 
     }
+    System.out.println(nodes);
 
     return solution;
 }
@@ -95,7 +97,7 @@ public static void main(String[] args){
 
         }
        Node start = new Node(nrects,rec);
-       Node solution = dfs(start,hash);
+       Node solution = dfs(start,hash,tovisit);
 
        if(solution == null){
            System.out.println("Solução não encontrada");

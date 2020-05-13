@@ -8,7 +8,7 @@ public static Node child(Node n,Vert vert){
     Node child = new Node(n.nrets,n.visited_cpy());
     child.cost = 1+n.cost;
     child.guardas = n.list_cpy();
-    child.parent = n;
+   // child.parent = n;
     child.add_guard(vert);
     child.update(vert);
     vert.guard = true;
@@ -24,22 +24,27 @@ public static Node bfs(Node start,HashMap<Integer,Vert> hash){
     Queue<Node> q = new LinkedList<>();
     q.add(start);
     Node n;
-
+    long nodes = 1;
     while(!(q.isEmpty())){
        
          n = q.remove();
 
  
-        if(n.all_visited()) return n;
+        if(n.all_visited()){
+             System.out.println(nodes);
+             return n;}
                    
             for(int j=1;j<=hash.size();j++){
             if(n.vertid < hash.get(j).id && n.visited(hash.get(j))!=true ){
+                nodes++;
                 q.add(child(n,hash.get(j)));
              }
             }
 
 
     }
+
+   
 
     return null;
 }

@@ -2,7 +2,7 @@ import java.util.*;
 import java.lang.*;
 
 class IDS{
-
+public static long nodes = 1;
 public static Node child(Node n,Vert vert){
   
     Node child = new Node(n.nrets,n.visited_cpy());
@@ -23,9 +23,12 @@ public static Node ids_start(Node start,HashMap<Integer,Vert> hash,int recs){
     for(int limit = recs/3;limit <= hash.size();limit++){
             Node n = dfs(start,hash,limit);
             if(n!=null){
+                System.out.println(nodes);
                 return n;
             }
     }
+
+    
 return null;
 }
 public static Node dfs(Node start,HashMap<Integer,Vert> hash,int limit){
@@ -33,6 +36,7 @@ public static Node dfs(Node start,HashMap<Integer,Vert> hash,int limit){
     Stack<Node> q = new Stack<>();
     q.push(start);
     Node n;
+    
  
     while(!(q.isEmpty())){
        
@@ -43,12 +47,13 @@ public static Node dfs(Node start,HashMap<Integer,Vert> hash,int limit){
             for(int j=1;j<=hash.size();j++){
             if(n.vertid < hash.get(j).id && (n.visited(hash.get(j))!=true)){
                 q.push(child(n,hash.get(j)));
+                nodes++;
              }
             }
         }
 
     }
-
+ 
     return null;
 }
 
