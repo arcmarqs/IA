@@ -18,7 +18,7 @@ class Node{
         for(int i=1;i<=nrects;i++){
             visited[i]=visitados[i];
         }
-    
+       // guardas = guardedverts;
     }
 
     public void update(Vert v){
@@ -109,7 +109,7 @@ class Vert{
 
 
 
-class DFS{
+class IDS{
 
 public static Node child(Node n,Vert vert){
   
@@ -127,36 +127,37 @@ public static Node child(Node n,Vert vert){
 
     
 }
-
-public static Node dfs(Node start,HashMap<Integer,Vert> hash){
+public static Node ids_start(Node start,HashMap<Integer,Vert> hash,int recs){
+    for(int limit = recs/3;limit <= hash.size();limit++){
+            Node n = dfs(start,hash,limit);
+            if(n!=null){
+                return n;
+            }
+    }
+return null;
+}
+public static Node dfs(Node start,HashMap<Integer,Vert> hash,int limit){
     if(start.all_visited()==true) return start;
     Stack<Node> q = new Stack<>();
     q.push(start);
     Node n;
-    Node solution=null;
-
-    int maxcost = hash.size();
+ 
     while(!(q.isEmpty())){
        
          n = q.pop();
 
-
-        if(n.all_visited()){
-            maxcost = n.cost;
-            solution = n;
-        };
-                   if(n.cost<maxcost){
+        if(n.all_visited()) return n;
+        if(n.cost<limit){
             for(int j=1;j<=hash.size();j++){
             if(n.vertid < hash.get(j).id && (n.visited(hash.get(j))!=true)){
                 q.push(child(n,hash.get(j)));
              }
             }
-          }
-
+        }
 
     }
 
-    return solution;
+    return null;
 }
 
 
@@ -176,7 +177,6 @@ public static void main(String[] args){
         int id=1;
         int nrects = in.nextInt();
         int tovisit = in.nextInt();
-
         int rec[]= new int[nrects+1];
         Arrays.fill(rec,1);
         for(int k=1;k<=tovisit;k++) rec[in.nextInt()] = 0;
@@ -202,7 +202,7 @@ public static void main(String[] args){
 
         }
        Node start = new Node(nrects,rec);
-       Node solution = dfs(start,hash);
+       Node solution = ids_start(start,hash,tovisit);
 
        if(solution == null){
            System.out.println("Solução não encontrada");

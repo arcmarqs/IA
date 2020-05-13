@@ -170,8 +170,6 @@ public static void main(String[] args){
         int id=1;
         int nrects = in.nextInt();
         int tovisit = in.nextInt();
-      //  int to_visit[] = new int[tovisit+1];
-      //  int var=1;
         int rec[]= new int[nrects+1];
         Arrays.fill(rec,1);
         for(int k=1;k<=tovisit;k++) rec[in.nextInt()] = 0;
